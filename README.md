@@ -1,5 +1,7 @@
 # GitHub Codespaces 上的 Cinnamon 桌面环境
 
+在CloudSpace上运行你的桌面
+
 ## 💻 管理控制台
 
 [![](https://img.shields.io/badge/创建容器-brightgreen?style=for-the-badge&logo=github)](https://github.com/codespaces/new)
