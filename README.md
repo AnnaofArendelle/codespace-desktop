@@ -39,12 +39,12 @@ TAILSCALE_AUTHKEY
 ```
 3. 值填入你刚才生成的**密钥字符串**。
 ### 初始化容器
-1. 创建新的桌面空间: [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=1169948011&location=southeastasia)
+ [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=1169948011&location=southeastasia)
 
-2. 选择Fork的Codespace存储库，如 `MaxCauifield/codespace-desktop`
-3. 选择区域，建议选择东南亚地区（**Southeast Asia**），延迟最低
-4. 选择机器类型，若要解锁更高级的机器类型, 请在Github上[提交工单](https://support.github.com/contact?tags=rr-codespaces%2Ccat_codespace)
-5. 点击 创建**CodeSpace（Create）**，创建过程需要耗费一些时间。
+选择Fork的Codespace存储库，点击 创建**CodeSpace（Create）**，创建过程需要耗费一些时间。
+
+若要解锁更高级的机器类型, 请在Github上[提交工单](https://support.github.com/contact?tags=rr-codespaces%2Ccat_codespace)
+
 ### 连接方式
 提供4种不同的连接方式，推荐使用Tailscale+客户端连接
 
