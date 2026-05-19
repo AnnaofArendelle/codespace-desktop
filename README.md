@@ -39,7 +39,7 @@ TAILSCALE_AUTHKEY
 ```
 3. 值填入你刚才生成的**密钥字符串**。
 ### 初始化容器
-1. 创建新的桌面空间: [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=1169948011&location=southeastasia)
+1. 创建新的桌面空间: [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&location=southeastasia)
 
 2. 选择Fork的Codespace存储库，如 `MaxCauifield/codespace-desktop`
 3. 选择区域，建议选择东南亚地区（**Southeast Asia**），延迟最低
