@@ -42,6 +42,7 @@ TAILSCALE_AUTHKEY
  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?ref=main&location=southeastasia)
 
 选择Fork的Codespace存储库，点击 创建**CodeSpace（Create）**，创建过程需要耗费一些时间。
+
 若要解锁更高级的机器类型, 请在Github上[提交工单](https://support.github.com/contact?tags=rr-codespaces%2Ccat_codespace)
  
 ### 一键部署CloudShell：
