@@ -40,6 +40,9 @@ TAILSCALE_AUTHKEY
 3. 值填入你刚才生成的**密钥字符串**。
 ### 一键部署CodeSpace：
  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?ref=main&location=southeastasia)
+ 
+### 一键部署CloudShell：
+ [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FAnnaofArendelle%2FDocker-Desktop&cloudshell_git_branch=main&cloudshell_tutorial=GCSLEARN.md)
 
 选择Fork的Codespace存储库，点击 创建**CodeSpace（Create）**，创建过程需要耗费一些时间。
 
