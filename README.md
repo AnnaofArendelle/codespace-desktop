@@ -11,7 +11,7 @@
 ```
 chmod +x gcs.sh
 ./gcs.sh setup
-./gcs
+./gcs.sh
 ```
 
 脚本会自动安装默认的 xfce4 桌面和 VNC Server，并启用 noVNC 网页访问和 Tailscale 登录授权。
