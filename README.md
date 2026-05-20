@@ -40,13 +40,14 @@ TAILSCALE_AUTHKEY
 3. 值填入你刚才生成的**密钥字符串**。
 ### 一键部署CodeSpace：
  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?ref=main&location=southeastasia)
+
+选择Fork的Codespace存储库，点击 创建**CodeSpace（Create）**，创建过程需要耗费一些时间。
+若要解锁更高级的机器类型, 请在Github上[提交工单](https://support.github.com/contact?tags=rr-codespaces%2Ccat_codespace)
  
 ### 一键部署CloudShell：
  [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FAnnaofArendelle%2FDocker-Desktop&cloudshell_git_branch=main&cloudshell_tutorial=GCSLEARN.md)
 
-选择Fork的Codespace存储库，点击 创建**CodeSpace（Create）**，创建过程需要耗费一些时间。
-
-若要解锁更高级的机器类型, 请在Github上[提交工单](https://support.github.com/contact?tags=rr-codespaces%2Ccat_codespace)
+按右侧弹出的说明执行下一步部署操作。
 
 ### 连接方式
 提供4种不同的连接方式，推荐使用Tailscale+客户端连接
