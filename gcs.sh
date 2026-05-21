@@ -3,25 +3,9 @@
 # --- 用户配置区 ---
 NAME="tailscale-gcsvnc"
 PASS="password"   # 请修改你的VNC密码
-
-# 安装你需要的软件包 (桌面环境, 应用等)
-install_packages() {
-    packages="xfce4 dbus-x11"
-    sudo apt update
-    sudo apt install -y $packages
-}
-
-# VNC会话启动脚本 (类似 xinitrc)
-fxstartup="#!/bin/sh
-# Put your autostart programs here.
-
-# Run WM/DE (It is usually placed at the end of the file)
-dbus-update-activation-environment --all
-exec dbus-run-session xfce4-session
-"
+DOCKER_IMAGE="dorowu/ubuntu-desktop-lxde-vnc"  # LXDE VNC 镜像
 # --- 用户配置区结束 ---
 
-# --- 脚本内部逻辑 ---
 TAILSCALE_AUTHKEY="" # 通过环境变量或手动输入
 
 setup() {
@@ -41,8 +25,7 @@ setup() {
 
     # 2. 启动Tailscale容器 (使用主机网络)
     echo "Joining Tailscale network..."
-    docker run \
-        -d \
+    docker run -d \
         --rm \
         --net=host \
         --name "${NAME}-tailscale" \
@@ -54,34 +37,24 @@ setup() {
         tailscale/tailscale:latest
     echo "Tailscale container started. Waiting for network to be ready..."
 
-    # 3. 安装VNC软件并配置
-    echo "Installing VNC server and desktop environment..."
-    sudo apt update
-    printf "35\n1\n" | sudo apt install tigervnc-standalone-server tigervnc-xorg-extension -y
-    printf "%s\n%s\nn\n" $PASS $PASS | vncpasswd
-    echo "$fxstartup" > ~/.vnc/xstartup
-    
-    # 4. 安装用户自定义软件包
-    install_packages
-
-    echo "=== Setup completed! ==="
-    echo "You can now start the VNC server by running './tailscale-gcsvnc'"
+    # 3. 启动 LXDE VNC Docker 镜像
+    echo "Starting LXDE VNC container..."
+    docker run -d \
+        --name "${NAME}-vnc" \
+        --net=host \
+        -v $HOME:/root \
+        -e VNC_PASSWORD="$PASS" \
+        $DOCKER_IMAGE
+    echo "LXDE VNC container started."
+    echo "You can now connect via VNC using Tailscale IP on port 5900."
 }
 
 ifnotsetup() {
-    if [ ! -x "$(command -v vncserver)" ]; then
-        echo "Error: VNC server is not installed."
-        echo "Please run './tailscale-gcsvnc setup' first."
-        exit 1
-    fi
-    
-    # 确保 Tailscale 容器在运行，如果不在则尝试启动
+    # 1. 检查 Tailscale 容器
     if ! docker ps --format '{{.Names}}' | grep -q "^${NAME}-tailscale$"; then
         echo "Warning: Tailscale container is not running. Attempting to start..."
-        # 注意：这里需要一个永久有效的 auth key 或已持久化的状态
         if [ -f "$HOME/.tailscale_state/authkey" ]; then
-            docker run \
-                -d \
+            docker run -d \
                 --rm \
                 --net=host \
                 --name "${NAME}-tailscale" \
@@ -97,15 +70,27 @@ ifnotsetup() {
             exit 1
         fi
     fi
+
+    # 2. 检查 LXDE VNC 容器
+    if ! docker ps --format '{{.Names}}' | grep -q "^${NAME}-vnc$"; then
+        echo "Warning: LXDE VNC container is not running. Starting..."
+        docker run -d \
+            --name "${NAME}-vnc" \
+            --net=host \
+            -v $HOME:/root \
+            -e VNC_PASSWORD="$PASS" \
+            $DOCKER_IMAGE
+        echo "LXDE VNC container started."
+    fi
 }
 
 case "$1" in
     setup)   setup ;;
-    "")      ifnotsetup; vncserver -localhost no ;;
-    kill)    ifnotsetup; vncserver -kill ":$2" ;;
-    killall) ifnotsetup; vncserver -kill :* ;;
+    "")      ifnotsetup ;;
+    kill)    docker stop "${NAME}-vnc" ; docker stop "${NAME}-tailscale" ;;
+    killall) docker stop "${NAME}-vnc" ; docker stop "${NAME}-tailscale" ;;
     *)
-        echo "Usage: $0 [setup|kill <display>|killall]"
+        echo "Usage: $0 [setup|kill|killall]"
         exit 1
         ;;
 esac
