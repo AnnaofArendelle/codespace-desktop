@@ -4,7 +4,7 @@
 本项目不额外嵌套任何容器，桌面依旧使用默认的 xfce 桌面和 VNC 服务器。
 
 # I want to install it now!
-[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FAnnaofArendelle%2FCloudShell-Desktop&cloudshell_git_branch=main&cloudshell_tutorial=README.md)
+[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://shell.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FAnnaofArendelle%2FDocker-Desktop&cloudshell_git_branch=main&cloudshell_tutorial=README.md)
 
 # How to run it?
 
