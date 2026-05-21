@@ -10,7 +10,6 @@
 
 ```
 chmod +x gcs.sh
-./gcs.sh setup
 ./gcs.sh
 ```
 
