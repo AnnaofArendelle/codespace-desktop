@@ -25,7 +25,7 @@ fi
 docker pull $DOCKER_IMAGE
 docker pull tailscale/tailscale:latest
 
-# 启动 Tailscale 容器
+# 启动 Tailscale 容器（保持不变）
 docker run -d --rm --net=host \
     --name "${NAME}-tailscale" \
     --cap-add NET_ADMIN \
@@ -35,32 +35,33 @@ docker run -d --rm --net=host \
     -v "$HOME/.tailscale_state:/var/lib/tailscale" \
     tailscale/tailscale:latest
 
-# 启动 LXDE VNC + 中文 + SSH + RDP 容器
+# 启动 LXDE VNC + 中文 + SSH + RDP 容器（修正版）
 docker run -d --name "${NAME}-vnc" --net=host \
     -v "$HOME:/root" \
     -e VNC_PASSWORD="$VNC_PASS" \
     -e SSH_PASSWORD="$SSH_PASS" \
     -e LANG="zh_CN.UTF-8" \
     -e DISPLAY_WIDTH=1280 -e DISPLAY_HEIGHT=720 \
-    -p 8080:8080 \
-    $DOCKER_IMAGE /bin/sh -c "
+    $DOCKER_IMAGE /bin/bash -c "
         # 安装中文支持、SSH、RDP
-        apt-get update && apt-get install -y language-pack-zh-hans locales sudo openssh-server xrdp \
-        && locale-gen zh_CN.UTF-8 \
-        && update-locale LANG=zh_CN.UTF-8 \
+        apt-get update && apt-get install -y language-pack-zh-hans locales sudo openssh-server xrdp
+        locale-gen zh_CN.UTF-8
+        update-locale LANG=zh_CN.UTF-8
         # SSH 配置
-        && mkdir -p /var/run/sshd \
-        && echo 'root:$SSH_PASSWORD' | chpasswd \
-        && sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config \
-        && sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config \
-        && service ssh start \
-        # 启动 xrdp
-        && service xrdp start \
-        # 启动 VNC Server
-        && vncserver :1 -geometry ${RESOLUTION} -depth 24 \
-        && echo '=== LXDE + VNC + SSH + RDP 已就绪 ==='"
-        
+        mkdir -p /var/run/sshd
+        # 修正：使用双引号让 $SSH_PASSWORD 变量展开
+        echo \"root:$SSH_PASSWORD\" | chpasswd
+        sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+        sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+        # 启动 SSH 和 RDP 服务（后台）
+        service ssh start
+        service xrdp start
+        # 交给原镜像的启动脚本，保持容器前台运行（VNC、noVNC 等）
+        exec /start.sh
+    "
+
 echo "=== 启动完成 ==="
-echo "VNC（Web）访问: http://127.0.0.1:8080 , 密码: $VNC_PASS"
+echo "VNC（Web）访问: http://<Tailscale-IP>:8080 , 密码: $VNC_PASS"
 echo "SSH 访问: ssh root@<Tailscale-IP> , 密码: $SSH_PASS"
 echo "RDP 访问: <Tailscale-IP>:3389 , 分辨率: $RESOLUTION"
+echo "请等待 1-2 分钟让服务完全启动。"
